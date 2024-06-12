@@ -32,8 +32,13 @@ const loop = () => {
 
     if (p0.x != -1)
         renderCircle(p0.x, p0.y);
-    if (p1.x != -1)
+    if (p1.x != -1) {
+        ctx.beginPath();
+        ctx.moveTo(p0.x, p0.y);
+        ctx.lineTo(p1.x, p1.y);
+        ctx.stroke();
         renderCircle(p1.x, p1.y);
+    }
 
     window.requestAnimationFrame(loop);
 }
@@ -44,6 +49,7 @@ const onClick = (e) => {
     const y = e.clientY - rect.top;
 
     const pitchCoords = canvasToPitch(x, y);
+    if(pitchCoords.x < 0 || pitchCoords.x > 1 || pitchCoords.y < 0 || pitchCoords.y > 1) return;
     if(p0.x == -1) p0 = pitchToCanvas(pitchCoords.x, pitchCoords.y);
     else p1 = pitchToCanvas(pitchCoords.x, pitchCoords.y);
 }
