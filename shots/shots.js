@@ -25,6 +25,12 @@ const popup = {
     },
     get h() {
         return this.btnSize + this.padding * 2;
+    },
+    get buttonGoal() {
+        return {x: this.x + this.padding, y: this.y + this.padding};
+    },
+    get buttonNoGoal() {
+        return {x: this.x + this.padding*3 + this.btnSize, y: this.y + this.padding};
     }
 };
 
@@ -66,6 +72,18 @@ const onClick = (e) => {
     const rect = canvas.getBoundingClientRect();
     const x = e.clientX - rect.left;
     const y = e.clientY - rect.top;
+
+    if (firstPointIn() && secondPointIn()) {
+        if(isMouseInPopupButton(x, y, popup.buttonGoal)) {
+            console.log('Goal');
+            resetPoints();
+            return;
+        } else if(isMouseInPopupButton(x, y, popup.buttonNoGoal)) {
+            console.log('NoGoal');
+            resetPoints();
+            return;
+        }
+    }
 
     const pitchCoords = canvasToPitch(x, y);
     if(pitchCoords.x < 0 || pitchCoords.x > 1 || pitchCoords.y < 0 || pitchCoords.y > 1) return;
@@ -112,6 +130,11 @@ const setPopupPositionFromLastPoint = (x, y) => {
     popup.x = x - popup.w/2;
     popup.y = y - popup.h - 10;
     console.log(popup.w, popup.h);
+}
+
+const isMouseInPopupButton = (mx, my, button) => {
+    return mx >= button.x && mx <= button.x + popup.btnSize &&
+        my >= button.y && my <= button.y + popup.btnSize;
 }
 
 const firstPointIn = () => {
