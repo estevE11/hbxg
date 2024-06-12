@@ -8,12 +8,25 @@ bg.src = 'hbpitch.png'; // Specify the path to your image file
 var p0 = {x: -1, y: -1};
 var p1 = {x: -1, y: -1};
 
-const pitchBounds = {
+let pitchBounds = {
     x: 40,
     y: 55,
     w: 730,
     h: 730
 }
+
+const popup = {
+    padding: 5,
+    x: 0,
+    y: 0,
+    btnSize: 40,
+    get w() {
+        return this.btnSize * 2 + this.padding * 4;
+    },
+    get h() {
+        return this.btnSize + this.padding * 2;
+    }
+};
 
 const start = () => {
     canvas = document.createElement('canvas');
@@ -32,13 +45,15 @@ const loop = () => {
 
     if (firstPointIn())
         renderCircle(p0.x, p0.y);
-    if (secondPointIn) {
+    if (secondPointIn()) {
         ctx.beginPath();
         ctx.moveTo(p0.x, p0.y);
         ctx.lineTo(p1.x, p1.y);
         ctx.stroke();
         renderCircle(p1.x, p1.y);
     }
+
+    if (popupActive()) renderPopup();
 
     window.requestAnimationFrame(loop);
 }
@@ -50,8 +65,11 @@ const onClick = (e) => {
 
     const pitchCoords = canvasToPitch(x, y);
     if(pitchCoords.x < 0 || pitchCoords.x > 1 || pitchCoords.y < 0 || pitchCoords.y > 1) return;
-    if(!firstPointIn()) p0 = pitchToCanvas(pitchCoords.x, pitchCoords.y);
-    else p1 = pitchToCanvas(pitchCoords.x, pitchCoords.y);
+    if (!firstPointIn()) p0 = pitchToCanvas(pitchCoords.x, pitchCoords.y);
+    else {
+        p1 = pitchToCanvas(pitchCoords.x, pitchCoords.y);
+        setPopupPositionFromLastPoint(p1.x, p1.y);
+    }
 }
 
 const renderCircle = (x, y) => {
@@ -60,6 +78,16 @@ const renderCircle = (x, y) => {
     ctx.fillStyle = 'red';
     ctx.fill();
     ctx.stroke();
+}
+
+const renderPopup = () => {
+    ctx.fillStyle = 'black';
+    ctx.fillRect(popup.x, popup.y, popup.w, popup.h);
+    ctx.fillStyle = 'green';
+    ctx.fillRect(popup.x + popup.padding, popup.y + popup.padding, popup.btnSize, popup.btnSize);
+
+    ctx.fillStyle = 'red';
+    ctx.fillRect(popup.x + popup.padding*3 + popup.btnSize, popup.y + popup.padding, popup.btnSize, popup.btnSize);
 }
 
 const canvasToPitch = (x, y) => {
@@ -76,12 +104,26 @@ const pitchToCanvas = (x, y) => {
     }
 }
 
+const setPopupPositionFromLastPoint = (x, y) => {
+    popup.x = x - popup.w/2;
+    popup.y = y - popup.h - 10;
+    console.log(popup.w, popup.h);
+}
+
 const firstPointIn = () => {
     return p0.x != -1;
 }
 
 const secondPointIn = () => {
-    return p0.x != -1;
+    return p1.x != -1;
+}
+
+const popupActive = () => {
+    return firstPointIn() && secondPointIn();
+}
+
+const distance = (p0, p1) => {
+    return Math.sqrt((p0.x - p1.x) ** 2 + (p0.y - p1.y) ** 2);
 }
 
 window.onload = start;
