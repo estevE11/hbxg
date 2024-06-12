@@ -8,7 +8,7 @@ Análisis de las finalizaciones de los jugadores extremo en balonmano: https://w
 - NAC Sport - https://www.nacsport.com/index.php?lc=es-es
 - 
 
-###factors?:
+### factors?:
 - Assist type - long ball, through ball etc.
 - Was it a big chance?
 - Angle of the shot
@@ -23,4 +23,9 @@ we need a precalculated scoring probability for each zone, then we can lerp betw
 
 # Update 2024
 
-The idea is to collect by hand (initially) all the data necessary about shots (Jump start, jump end(shot) and Goal/No Goal). Then we will use a machine learning algorithm that given coordinates will give the change of the shot being goal or not.
+The idea is to collect by hand (initially) all the data necessary about shots. Then we will use a machine learning algorithm that given coordinates will give the change of the shot being goal or not.
+
+### New factors:
+- Jump position
+- Shot position
+- Goal/No Goal
