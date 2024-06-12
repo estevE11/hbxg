@@ -30,9 +30,9 @@ const start = () => {
 const loop = () => {
     ctx.drawImage(bg, 0, 0, bg.width*2, bg.height*2);
 
-    if (p0.x != -1)
+    if (firstPointIn())
         renderCircle(p0.x, p0.y);
-    if (p1.x != -1) {
+    if (secondPointIn) {
         ctx.beginPath();
         ctx.moveTo(p0.x, p0.y);
         ctx.lineTo(p1.x, p1.y);
@@ -50,7 +50,7 @@ const onClick = (e) => {
 
     const pitchCoords = canvasToPitch(x, y);
     if(pitchCoords.x < 0 || pitchCoords.x > 1 || pitchCoords.y < 0 || pitchCoords.y > 1) return;
-    if(p0.x == -1) p0 = pitchToCanvas(pitchCoords.x, pitchCoords.y);
+    if(!firstPointIn()) p0 = pitchToCanvas(pitchCoords.x, pitchCoords.y);
     else p1 = pitchToCanvas(pitchCoords.x, pitchCoords.y);
 }
 
@@ -74,6 +74,14 @@ const pitchToCanvas = (x, y) => {
         x: x * pitchBounds.w + pitchBounds.x,
         y: y * pitchBounds.h + pitchBounds.y
     }
+}
+
+const firstPointIn = () => {
+    return p0.x != -1;
+}
+
+const secondPointIn = () => {
+    return p0.x != -1;
 }
 
 window.onload = start;
