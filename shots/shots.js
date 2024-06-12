@@ -175,9 +175,10 @@ const renderData = () => {
     console.log("renderdata");
     let list = document.getElementById('list');
     let html = '';
-    data.forEach((d, i) => {
-        html += `<li>${i + 1}: (${d.x0}, ${d.y0}) -> (${d.x1}, ${d.y1}) -> ${d.goal ? 'Goal' : 'No goal'}</li>`;
-    });
+    for(let i = data.length-1; i > -1; i--) {
+        const d = data[i];
+        html += `<li>${(i*-1 + data.length)}: (${d.x0}, ${d.y0}) -> (${d.x1}, ${d.y1}) -> ${d.goal ? 'Goal' : 'No goal'}</li>`;
+    }
     console.log(html);
     list.innerHTML = html;
 }
