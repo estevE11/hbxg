@@ -15,6 +15,8 @@ let pitchBounds = {
     h: 730
 }
 
+let data = [];
+
 const popup = {
     padding: 5,
     x: 0,
@@ -75,11 +77,11 @@ const onClick = (e) => {
 
     if (firstPointIn() && secondPointIn()) {
         if(isMouseInPopupButton(x, y, popup.buttonGoal)) {
-            console.log('Goal');
+            addData(true);
             resetPoints();
             return;
         } else if(isMouseInPopupButton(x, y, popup.buttonNoGoal)) {
-            console.log('NoGoal');
+            addData(false);
             resetPoints();
             return;
         }
@@ -154,8 +156,30 @@ const popupActive = () => {
     return firstPointIn() && secondPointIn();
 }
 
-const distance = (p0, p1) => {
-    return Math.sqrt((p0.x - p1.x) ** 2 + (p0.y - p1.y) ** 2);
+const addData = (goal) => {
+    const pos0 = canvasToPitch(p0.x, p0.y);
+    const pos1 = canvasToPitch(p1.x, p1.y);
+    const newData = {
+        x0: pos0.x.toFixed(3),
+        y0: pos0.y.toFixed(3),
+        x1: pos1.x.toFixed(3),
+        y1: pos1.y.toFixed(3),
+        goal: goal
+    };
+
+    data.push(newData);
+    renderData();
+}
+
+const renderData = () => {
+    console.log("renderdata");
+    let list = document.getElementById('list');
+    let html = '';
+    data.forEach((d, i) => {
+        html += `<li>${i + 1}: (${d.x0}, ${d.y0}) -> (${d.x1}, ${d.y1}) -> ${d.goal ? 'Goal' : 'No goal'}</li>`;
+    });
+    console.log(html);
+    list.innerHTML = html;
 }
 
 window.onload = start;
