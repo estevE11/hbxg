@@ -19,3 +19,8 @@ Análisis de las finalizaciones de los jugadores extremo en balonmano: https://w
 ![image](https://user-images.githubusercontent.com/15111802/231739838-f7283f8f-0159-46be-ae13-b78b26e292e0.png)
 
 we need a precalculated scoring probability for each zone, then we can lerp between zones to get the probability for specific coordinates
+
+
+# Update 2024
+
+The idea is to collect by hand (initially) all the data necessary about shots (Jump start, jump end(shot) and Goal/No Goal). Then we will use a machine learning algorithm that given coordinates will give the change of the shot being goal or not.
