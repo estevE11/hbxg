@@ -181,7 +181,6 @@ const renderData = () => {
 }
 
 const listOnClick = (i) => {
-    console.log(i);
     data.splice(i, 1);
     renderData();
 }
