@@ -5,6 +5,13 @@ var canvas, ctx;
 const bg = new Image();
 bg.src = 'hbpitch.png'; // Specify the path to your image file
 
+const pitchBounds = {
+    x: 40,
+    y: 55,
+    w: 730,
+    h: 730
+}
+
 const start = () => {
     canvas = document.createElement('canvas');
     ctx = canvas.getContext('2d');
