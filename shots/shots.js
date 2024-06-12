@@ -36,6 +36,10 @@ const start = () => {
     document.getElementById('canvas-container').appendChild(canvas);
 
     canvas.addEventListener('click', onClick);
+    canvas.addEventListener('contextmenu', (e) => {
+        e.preventDefault();
+        resetPoints();
+    });
 
     window.requestAnimationFrame(loop);
 }
@@ -116,6 +120,11 @@ const firstPointIn = () => {
 
 const secondPointIn = () => {
     return p1.x != -1;
+}
+
+const resetPoints = () => {
+    p0 = {x: -1, y: -1};
+    p1 = {x: -1, y: -1};
 }
 
 const popupActive = () => {
