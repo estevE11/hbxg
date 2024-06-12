@@ -3,7 +3,7 @@ const canvasWidth = 800, canvasHeight = 800;
 var canvas, ctx;
 
 const bg = new Image();
-bg.src = 'hbpitch.png'; // Specify the path to your image file
+bg.src = 'hbpitch.png';
 
 var p0 = {x: -1, y: -1};
 var p1 = {x: -1, y: -1};
