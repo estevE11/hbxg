@@ -52,6 +52,7 @@ const start = () => {
     window.requestAnimationFrame(loop);
 }
 
+// TODO: Render points on hover list element
 const loop = () => {
     ctx.drawImage(bg, 0, 0, bg.width*2, bg.height*2);
 
@@ -87,6 +88,7 @@ const onClick = (e) => {
         }
     }
 
+    // TODO: First click only works outisde the area
     const pitchCoords = canvasToPitch(x, y);
     if(pitchCoords.x < 0 || pitchCoords.x > 1 || pitchCoords.y < 0 || pitchCoords.y > 1) return;
     if (!firstPointIn()) p0 = pitchToCanvas(pitchCoords.x, pitchCoords.y);
