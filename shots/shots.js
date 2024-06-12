@@ -131,7 +131,6 @@ const pitchToCanvas = (x, y) => {
 const setPopupPositionFromLastPoint = (x, y) => {
     popup.x = x - popup.w/2;
     popup.y = y - popup.h - 10;
-    console.log(popup.w, popup.h);
 }
 
 const isMouseInPopupButton = (mx, my, button) => {
@@ -172,15 +171,25 @@ const addData = (goal) => {
 }
 
 const renderData = () => {
-    console.log("renderdata");
     let list = document.getElementById('list');
     let html = '';
     for(let i = data.length-1; i > -1; i--) {
         const d = data[i];
-        html += `<li>${(i*-1 + data.length)}: (${d.x0}, ${d.y0}) -> (${d.x1}, ${d.y1}) -> ${d.goal ? 'Goal' : 'No goal'}</li>`;
+        html += listElementTemplate(i, d);
     }
-    console.log(html);
     list.innerHTML = html;
+}
+
+const listOnClick = (i) => {
+    console.log(i);
+    data.splice(i, 1);
+    renderData();
+}
+
+const listElementTemplate = (i, d) => {
+    return `<li class="list-element" onclick="listOnClick(${i})">
+                ${i+1}: (${d.x0}, ${d.y0}) -> (${d.x1}, ${d.y1}) -> ${d.goal ? 'Goal' : 'No goal'}
+            </li>`;
 }
 
 window.onload = start;
