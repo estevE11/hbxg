@@ -6,6 +6,7 @@ const bg = new Image();
 bg.src = 'hbpitch.png'; // Specify the path to your image file
 
 var p0 = {x: -1, y: -1};
+var p1 = {x: -1, y: -1};
 
 const pitchBounds = {
     x: 40,
@@ -29,13 +30,10 @@ const start = () => {
 const loop = () => {
     ctx.drawImage(bg, 0, 0, bg.width*2, bg.height*2);
 
-    if (p0.x != -1) {
-        ctx.beginPath();
-        ctx.arc(p0.x, p0.y, 5, 0, 2 * Math.PI);
-        ctx.fillStyle = 'red';
-        ctx.fill();
-        ctx.stroke();
-    }
+    if (p0.x != -1)
+        renderCircle(p0.x, p0.y);
+    if (p1.x != -1)
+        renderCircle(p1.x, p1.y);
 
     window.requestAnimationFrame(loop);
 }
@@ -46,9 +44,17 @@ const onClick = (e) => {
     const y = e.clientY - rect.top;
 
     const pitchCoords = canvasToPitch(x, y);
-    p0 = pitchToCanvas(pitchCoords.x, pitchCoords.y);
+    if(p0.x == -1) p0 = pitchToCanvas(pitchCoords.x, pitchCoords.y);
+    else p1 = pitchToCanvas(pitchCoords.x, pitchCoords.y);
 }
 
+const renderCircle = (x, y) => {
+    ctx.beginPath();
+    ctx.arc(x, y, 5, 0, 2 * Math.PI);
+    ctx.fillStyle = 'red';
+    ctx.fill();
+    ctx.stroke();
+}
 
 const canvasToPitch = (x, y) => {
     return {
